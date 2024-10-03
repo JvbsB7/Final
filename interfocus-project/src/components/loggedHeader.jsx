@@ -1,9 +1,10 @@
 import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // Importando Link para navegação
 import logo from '../assets/interfocus_logo.png'; 
+import { RxAvatar } from "react-icons/rx";
 
-const Header = () => {
+const LoggedHeader = () => {
   return (
     <header>
       <Navbar bg="primary" data-bs-theme="dark">
@@ -20,10 +21,23 @@ const Header = () => {
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Página inicial</Nav.Link>
             <Nav.Link as={Link} to="/packages">Packages</Nav.Link> 
+
           </Nav>
           <Nav>
-            <Nav.Link as={Link} to="/user-register">Criar conta</Nav.Link>
-            <Nav.Link as={Link} to="/login">Login</Nav.Link>
+            <NavDropdown
+              title={<RxAvatar style={{ fontSize: '2rem' }} />}
+              id="navbarDropdownMenuLink"
+              align="end"
+            >
+            <div className='text-center'>
+            <Nav.Link as={Link} to="/status">Meu plano</Nav.Link>
+            <Nav.Link as={Link} to="/subscription-update">Alterar plano</Nav.Link>
+            <NavDropdown.Item>
+                Log out
+            </NavDropdown.Item>
+            </div>
+            </NavDropdown>
+            
           </Nav>
         </Container>
       </Navbar>
@@ -31,4 +45,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default LoggedHeader;
