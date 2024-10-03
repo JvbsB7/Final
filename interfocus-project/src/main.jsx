@@ -24,8 +24,8 @@ import { containerStyle } from './styles/globalStyles';
 const App = () => {
   return (
     <Router>
-        {/* <Header /> */}
-        <LoggedHeader /> 
+        <Header />
+        {/* <LoggedHeader />  */}
         <div style={containerStyle}>
         <Routes>
           <Route path="/" element={<Home />} /> 

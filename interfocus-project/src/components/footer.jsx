@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-
+import { BsFillTelephoneFill,BsEnvelope  } from "react-icons/bs";
 
 const Footer = () => {
   return (
@@ -34,8 +34,8 @@ const Footer = () => {
           <Col className='text-start'>
             Contato:<br />
             13.863.575/0001­80 <br />
-            +55 (14) 3454-2681 <br />
-            suporte@interfocus.com.br
+            <BsFillTelephoneFill /> +55 (14) 3454-2681 <br />
+            <BsEnvelope /> suporte@interfocus.com.br
           </Col>
         </Row>  
         Copyright &copy; 2020
