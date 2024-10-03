@@ -1,12 +1,12 @@
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-
+import {carouselStyle} from '../../styles/globalStyles';
 function Home() {
     return (
         <div>
             <Carousel>
                 <Carousel.Item>
-                    <div style={{height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={carouselStyle}>
                         <Carousel.Caption>
                             <h3>I-Manager</h3>
                             <h5>Sistema completo de Administração de Empresas de TV a Cabo e Provedores de internet.</h5>
@@ -14,12 +14,11 @@ function Home() {
                                 Sistema completo, seguro e fácil de utilizar para Operadoras de TV por Assinatura e Provedores de Internet,
                                 abrangendo desde o cadastro de toda a infraestrutura de rede até a gestão completa dos assinantes e seus pacotes de serviços.
                             </p>
-                            <p></p>
                         </Carousel.Caption>
                     </div>
                 </Carousel.Item>
                 <Carousel.Item>
-                    <div style={{height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={carouselStyle}>
                         <Carousel.Caption>
                             <h3>I-NS</h3>
                             <h5>Sistema de Administração de Provedores.</h5>
@@ -33,7 +32,7 @@ function Home() {
                     </div>
                 </Carousel.Item>
                 <Carousel.Item>
-                    <div style={{height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={carouselStyle}>
                         <Carousel.Caption>
                             <h3>Software na medida certa.</h3>
                             <h5>Transforme sua empresa.</h5>

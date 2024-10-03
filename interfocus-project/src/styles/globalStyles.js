@@ -1,9 +1,12 @@
 export const containerStyle = {
-    // background:'black',
-    // color:'red',
-    minHeight:'80vh',
+    minHeight: '59vh',
+    marginTop:'2%'
+};
 
-
-
-  };
-  
+export const carouselStyle = {
+    height: '300px', 
+    display: 'flex', 
+    alignItems: 'center', 
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.15)',
+};

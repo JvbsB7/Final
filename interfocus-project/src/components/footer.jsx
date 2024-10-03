@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 const Footer = () => {
   return (
-    <footer className=".bg-body-secondary text-center">
+    <footer className=".bg-black text-center">
       <div className="container p-4 pb-0">
         <section className="mb-4">
           <a className="btn text-white btn-floating m-1" style={{ backgroundColor: '#3b5998' }} href="#!" role="button">
@@ -22,8 +22,8 @@ const Footer = () => {
           </a>
         </section>
       </div>
-
-        <div className="text-center px-5" style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
+      
+        <div className="text-center px-5" style={{ backgroundColor: 'rgba(0, 0, 0, 0.15)' }}>
           <Row className='py-3'>
           <Col className='text-end'>
             Localização:<br />

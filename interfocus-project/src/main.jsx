@@ -20,17 +20,18 @@ import { containerStyle } from './styles/globalStyles';
 const App = () => {
   return (
     <Router>
-      <div style={containerStyle}>
+      
         <Header />
+        <div style={containerStyle}>
         <Routes>
           <Route path="/" element={<Home />} /> 
           <Route path="/user-register" element={<UserRegister />} />
-          <Route path="/login" element={<Login />} /> {/* Rota para o Login */}
+          <Route path="/login" element={<Login />} /> 
           <Route path="/status" element={<SubscriptionStatus />} />
           <Route path="/subscription-update" element={<SubscriptionUpdate />} />
         </Routes>
+        </div>
         <Footer />
-      </div>
     </Router>
   );
 };
