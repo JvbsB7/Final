@@ -9,22 +9,40 @@ function Packages() {
             </div>
 
             <div className="container">
-                <div className="card-deck mb-3 text-center">
-                    <div className="card mb-4 box-shadow">
-                        <div className="card-header">
-                            <h4 className="my-0 font-weight-normal">Plano premium</h4>
-                        </div>
-                        <div className="card-body">
-                            <h1 className="card-title pricing-card-title">R$ 500.000 <small className="text-muted">/ mês</small></h1>
-                            <ul className="list-unstyled mt-3 mb-4">
-                                <li>10 usuários inclusos</li>
-                                <li>2 GB de armazenamento</li>
-                                <li>Suporte 24h</li>
-                            </ul>
-                            <button type="button" class="btn btn-lg btn-block btn-primary">Assine agora</button>
+                <div className="row">
+                    <div className="col-md-6 text-center" >
+                        <div className="card mb-4 box-shadow">
+                            <div className="card-header">
+                                <h4 className="my-0 font-weight-normal">Plano Premium</h4>
+                            </div>
+                            <div className="card-body rounded-bottom" >
+                                <h1 className="card-title pricing-card-title">R$ 500.000 <small className="text-muted">/ mês</small></h1>
+                                <ul className="list-unstyled mt-3 mb-4">
+                                    <li>10 usuários inclusos</li>
+                                    <li>2 GB de armazenamento</li>
+                                    <li>Suporte 24h</li>
+                                </ul>
+                                <button type="button" className="btn btn-lg btn-block btn-primary">Assine agora</button>
+                            </div>
                         </div>
                     </div>
-            
+
+                    <div className="col-md-6 text-center">
+                        <div className="card mb-4 box-shadow">
+                            <div className="card-header">
+                                <h4 className="my-0 font-weight-normal">Plano Básico</h4>
+                            </div>
+                            <div className="card-body rounded-bottom" >
+                                <h1 className="card-title pricing-card-title">R$ 250.000 <small className="text-muted">/ mês</small></h1>
+                                <ul className="list-unstyled mt-3 mb-4">
+                                    <li>5 usuários inclusos</li>
+                                    <li>1 GB de armazenamento</li>
+                                    <li>Suporte 12h</li>
+                                </ul>
+                                <button type="button" className="btn btn-lg btn-block btn-primary">Assine agora</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
