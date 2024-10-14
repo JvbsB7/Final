@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; // Importando Link para navegação
+import { Link } from 'react-router-dom';
 import logo from '../assets/interfocus_logo.png'; 
 
 const Header = () => {
