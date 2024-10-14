@@ -1,40 +1,8 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Modal, Alert } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
-
-function Cartao({ cardName, cardNumber, cardExpiry, cardCVV, setCardName, setCardNumber, setCardExpiry, setCardCVV }) {
-    return (
-        <>
-            <div style={{ marginBottom: '20px' }}>
-                <h4 className="fw-bold mb-2 text-center" style={{ background: 'linear-gradient(309deg, rgba(2,0,36,1) 0%, rgba(55,90,127,1) 80%)', borderRadius: '20px', color: 'white', fontWeight: 'bold', marginTop: '20px' }}>Cartão</h4>
-            </div>
-            <Form.Group controlId="formCardName">
-                <Form.Label>Seu nome, impresso no cartão</Form.Label>
-                <Form.Control className="shadow p-2" style={{ borderRadius: '50px' }} type="text" placeholder="Ex: João Silva" value={cardName} onChange={(e) => setCardName(e.target.value)} required />
-            </Form.Group>
-            <Row className="my-4">
-                <Col md={7}>
-                    <Form.Group controlId="formCardNumber">
-                        <Form.Label>Número do cartão</Form.Label>
-                        <Form.Control className="shadow p-2" style={{ borderRadius: '50px' }} type="text" placeholder="Ex: 1234 5678 1234 5678" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} required />
-                    </Form.Group>
-                </Col>
-                <Col md={3}>
-                    <Form.Group controlId="formCardExpiry">
-                        <Form.Label>Validade</Form.Label>
-                        <Form.Control className="shadow p-2" style={{ borderRadius: '50px' }} type="text" placeholder="MM/YYYY" value={cardExpiry} onChange={(e) => setCardExpiry(e.target.value)} required />
-                    </Form.Group>
-                </Col>
-                <Col md={2}>
-                    <Form.Group controlId="formCardCVV">
-                        <Form.Label>CVV</Form.Label>
-                        <Form.Control className="shadow p-2" style={{ borderRadius: '50px' }} type="text" placeholder="CVV" value={cardCVV} onChange={(e) => setCardCVV(e.target.value)} required />
-                    </Form.Group>
-                </Col>
-            </Row>
-        </>
-    );
-}
+import Cartao from './cartao';
+import Pix from "./pix";
 
 function Payment() {
     const location = useLocation();
@@ -49,6 +17,7 @@ function Payment() {
     const [cardNumber, setCardNumber] = useState("");
     const [cardExpiry, setCardExpiry] = useState("");
     const [cardCVV, setCardCVV] = useState("");
+    const [pixCode, setPixCode] = useState(""); // Estado para o código do Pix
 
     const handleCardSelect = (cardType) => {
         setSelectedCard(cardType);
@@ -62,16 +31,15 @@ function Payment() {
 
     const handlePayment = () => {
         setErrorMessages([]);
-
         const errors = [];
 
-        // Verifica se todos os campos estão preenchidos
         if (!cpf) {
             errors.push("O campo CPF é obrigatório.");
         }
         if (!email) {
             errors.push("O campo E-mail é obrigatório.");
         }
+
         if (selectedCard === "Visa" || selectedCard === "Mastercard") {
             if (!cardName) {
                 errors.push("O campo nome do cartão é obrigatório.");
@@ -87,13 +55,27 @@ function Payment() {
             }
         }
 
+        if (selectedCard === "Pix" && !pixCode) {
+            errors.push("O código do Pix é obrigatório.");
+        }
+
         if (errors.length > 0) {
             setShowError(true);
             setErrorMessages(errors);
         } else {
             setShowError(false);
-            setShowModal(true);
+            if (selectedCard === "Pix") {
+                handlePixPayment();
+            } else {
+                setShowModal(true);
+            }
         }
+    };
+
+    const handlePixPayment = () => {
+        // Lógica para processar o pagamento via Pix
+        console.log("Pagamento via Pix realizado com sucesso!");
+        setShowModal(true);
     };
 
     const handleCloseModal = () => {
@@ -145,7 +127,7 @@ function Payment() {
                 <Col md={10} lg={6}>
                     <div className="rounded-4 p-4" style={{ backgroundColor: 'white', boxShadow: '0px 0px 10px rgba(0,0,0,0.1)', color: 'black' }}>
                         <div className="text-center mb-4">
-                            <h4 style={{ margin: '10px', background: 'linear-gradient(309deg, rgba(2,0,36,1) 0%, rgba(55,90,127,1) 80%)', borderRadius: '15px', color: 'white', fontWeight: 'bold' }}>Pagamento</h4>
+                            <h4 style={{ margin: '10px', background: 'linear-gradient(309deg, rgba(2,0,36,1) 0%, rgba(55,90,127,1) 80%)', borderRadius: '20px', color: 'white', fontWeight: 'bold',padding:'10px'}}>Pagamento</h4>
                             <h6>Selecione a forma de pagamento</h6>
                         </div>
 
@@ -225,29 +207,16 @@ function Payment() {
                                 setCardNumber={setCardNumber} 
                                 setCardExpiry={setCardExpiry} 
                                 setCardCVV={setCardCVV} 
+                                handlePayment={handlePayment} // Passando a função para Cartao
                             />
                         }
 
-                        <div className="text-center">
-                            <button
-                                type="button"
-                                className="btn btn-lg btn-block"
-                                style={{
-                                    background: 'linear-gradient(309deg, rgba(2,0,36,1) 0%, rgba(55,90,127,1) 80%)',
-                                    color: 'white',
-                                    marginTop: '10%',
-                                    width: '80%',
-                                    marginBottom: '10%',
-                                    transition: 'all 0.3s ease',
-                                    transform: 'scale(1)',
-                                    border: '1px solid black',
-                                    borderRadius: '30px'
-                                }}
-                                onClick={handlePayment}
-                            >
-                                Pagar
-                            </button>
-                        </div>
+                        {selectedCard === "Pix" && (
+                            <Pix 
+                                pixCode={pixCode} 
+                                setPixCode={setPixCode} 
+                            />
+                        )}
 
                         {/* Mensagem de erro */}
                         {showError && (
