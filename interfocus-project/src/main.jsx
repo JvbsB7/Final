@@ -13,6 +13,10 @@ import Home from './containers/home/home';
 import Header from './components/header';
 import LoggedHeader from './components/loggedHeader';
 import Footer from './components/footer';
+import ManagePackages from './containers/packages/manage_packages';
+
+
+
 
 // Estilos //
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -34,7 +38,9 @@ const App = () => {
           <Route path="/status" element={<SubscriptionStatus />} />
           <Route path="/subscription-update" element={<SubscriptionUpdate />} />
           <Route path="/payment" element={<Payment />} />
-          
+          <Route path="/manage_packages" element={<ManagePackages />} />
+
+
         </Routes>
         </div>
         <Footer />

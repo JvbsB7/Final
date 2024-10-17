@@ -21,7 +21,7 @@ const LoggedHeader = () => {
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Página inicial</Nav.Link>
             <Nav.Link as={Link} to="/packages">Pacotes</Nav.Link>
-            <Nav.Link as={Link} to="/manage-plans">Gerenciar Planos</Nav.Link> {/* Novo link */}
+            <Nav.Link as={Link} to="/manage_packages">Gerenciar Planos</Nav.Link>   
           </Nav>
           <Nav>
             <NavDropdown
