@@ -1,0 +1,24 @@
+.ordem-servico-container {
+
+    padding: 20px;
+}
+
+.ordem-card {
+    border: 1px solid #3498db; 
+    border-radius: 10px; 
+    padding: 20px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+.ordem-card:hover {
+    transform: scale(1.05);
+}
+
+.ordem-card .card-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.ordem-card .card-text {
+    font-size: 14px;
+}
