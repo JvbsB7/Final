@@ -1,7 +1,7 @@
-import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import {carouselStyle} from '../../styles/globalStyles';
-function Home() {
+
+export function Home() {
     return (
         <div>
             <Carousel>
@@ -48,5 +48,3 @@ function Home() {
         </div>
     );
 }
-
-export default Home;

@@ -1,9 +1,8 @@
-import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import logo from '../assets/interfocus_logo.png'; 
+import { Link } from 'react-router-dom'; // Importando Link para navegação
+import logo from '../../assets/interfocus_logo.png'; 
 
-const Header = () => {
+export function Header() {
   return (
     <header>
       <Navbar bg="primary" data-bs-theme="dark">
@@ -20,6 +19,9 @@ const Header = () => {
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/">Página inicial</Nav.Link>
             <Nav.Link as={Link} to="/packages">Packages</Nav.Link> 
+            <Nav.Link as ={Link} to="/tipo-de-servico">Tipos de Serviço</Nav.Link>
+            <Nav.Link as={Link} to="/abertura-ordem-servico">Abertura Ordem Serviço</Nav.Link>
+            <Nav.Link as={Link} to="/lista-ordem-servico">Ordem de Serviço</Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link as={Link} to="/user-register">Criar conta</Nav.Link>
@@ -30,5 +32,3 @@ const Header = () => {
     </header>
   );
 };
-
-export default Header;

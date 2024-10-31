@@ -1,8 +1,7 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { BsFillTelephoneFill,BsEnvelope  } from "react-icons/bs";
 
-const Footer = () => {
+export function Footer() {
   return (
     <footer className=".bg-black text-center">
       <div className="container p-4 pb-0">
@@ -43,5 +42,3 @@ const Footer = () => {
     </footer>
   );
 }
-
-export default Footer;
