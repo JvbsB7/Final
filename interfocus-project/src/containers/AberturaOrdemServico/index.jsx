@@ -12,6 +12,7 @@ export function AberturaOrdemServico() {
     });
 
     const [tiposServico, setTiposServico] = useState([]);
+    const [isContratoDisabled, setIsContratoDisabled] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -22,19 +23,33 @@ export function AberturaOrdemServico() {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+        
+        if (name === 'tipoServico') {
+            const tipoSelecionado = tiposServico.find(tipo => tipo.nome === value);
+            if (tipoSelecionado && tipoSelecionado.statusContrato) {
+                setFormData({
+                    ...formData,
+                    tipoServico: value,
+                    contrato: tipoSelecionado.statusContrato,
+                });
+            } else {
+                setFormData({
+                    ...formData,
+                    tipoServico: value,
+                    contrato: '',
+                });
+            }
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value
+            });
+        }
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log('Form data submitted:', formData);
-
-        if (formData.contrato === 'VIP') {
-            console.log('Contrato selecionado é VIP');
-        }
 
         const novaOrdem = {
             servico: formData.tipoServico,
@@ -82,11 +97,12 @@ export function AberturaOrdemServico() {
                                 name="contrato"
                                 value={formData.contrato}
                                 onChange={handleInputChange}
+                                disabled={isContratoDisabled}
                             >
                                 <option value="">Selecione</option>
                                 <option value="SIMPLES">CONTRATO SIMPLES</option>
                                 <option value="VIP">CONTRATO VIP</option>
-                                <option value="Não possui">SEM CONTRATO</option>
+                                <option value="PADRÃO">CONTRATO PADRAO</option>
                             </Form.Control>
                         </Form.Group>
 

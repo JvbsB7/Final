@@ -25,26 +25,24 @@ export function TipoServico() {
     const [editingContratoIndex, setEditingContratoIndex] = useState(null);
 
     useEffect(() => {
-        try {
-            const tiposSalvos = JSON.parse(localStorage.getItem('tiposServico')) || [];
-            setTipos(tiposSalvos);
-        } catch (error) {
-            console.error("Erro ao acessar o localStorage: ", error);
-        }
+        const tiposSalvos = JSON.parse(localStorage.getItem('tiposServico')) || [];
+        setTipos(tiposSalvos);
     }, []);
 
-    // Carrega Status de Contrato
     useEffect(() => {
-        try {
-            const contratosSalvos = JSON.parse(localStorage.getItem('statusContrato')) || [];
-            setStatusContrato(contratosSalvos);
-        } catch (error) {
-            console.error("Erro ao acessar o localStorage: ", error);
-        }
+        const contratosSalvos = JSON.parse(localStorage.getItem('statusContrato')) || [];
+        setStatusContrato(contratosSalvos);
     }, []);
 
-    const validarStatus = (valor) => {
-        return valor === 'DESATIVADO' ? 'DESATIVADO' : 'ATIVO';
+    const validarStatus = (valor) => valor === 'DESATIVADO' ? 'DESATIVADO' : 'ATIVO';
+
+    const resetForm = () => {
+        setNome('');
+        setCategoria('');
+        setDescricao('');
+        setStatus('ATIVO');
+        setStatusContratoSelecionado('');
+        setEditingIndex(null);
     };
 
     const handleAddOrEditTipo = () => {
@@ -53,29 +51,18 @@ export function TipoServico() {
             categoria,
             descricao,
             status: validarStatus(status),
-            statusContrato: statusContratoSelecionado  
+            statusContrato: statusContratoSelecionado,
         };
 
-        if (editingIndex !== null) {
-            const tiposAtualizados = [...tipos];
-            tiposAtualizados[editingIndex] = novoTipo;
-            setTipos(tiposAtualizados);
-            localStorage.setItem('tiposServico', JSON.stringify(tiposAtualizados));
-        } else {
-            const tiposAtualizados = [...tipos, novoTipo];
-            setTipos(tiposAtualizados);
-            localStorage.setItem('tiposServico', JSON.stringify(tiposAtualizados));
-        }
+        const tiposAtualizados = editingIndex !== null 
+            ? tipos.map((tipo, index) => (index === editingIndex ? novoTipo : tipo)) 
+            : [...tipos, novoTipo];
 
-        setNome('');
-        setCategoria('');
-        setDescricao('');
-        setStatus('ATIVO');
-        setStatusContratoSelecionado(''); 
-        setEditingIndex(null);
+        setTipos(tiposAtualizados);
+        localStorage.setItem('tiposServico', JSON.stringify(tiposAtualizados));
+        resetForm();
         setShowModal(false);
         setShowSuccess(true);
-
         setTimeout(() => setShowSuccess(false), 3000);
     };
 
@@ -85,7 +72,7 @@ export function TipoServico() {
         setCategoria(tipoParaEditar.categoria);
         setDescricao(tipoParaEditar.descricao);
         setStatus(validarStatus(tipoParaEditar.status));
-        setStatusContratoSelecionado(tipoParaEditar.statusContrato || ''); 
+        setStatusContratoSelecionado(tipoParaEditar.statusContrato || '');
         setEditingIndex(index);
         setShowModal(true);
     };
@@ -95,58 +82,22 @@ export function TipoServico() {
             const tiposAtualizados = tipos.filter((_, i) => i !== index);
             setTipos(tiposAtualizados);
             localStorage.setItem('tiposServico', JSON.stringify(tiposAtualizados));
-
-            if (editingIndex === index) {
-                setNome('');
-                setCategoria('');
-                setDescricao('');
-                setStatus('ATIVO');
-                setStatusContratoSelecionado('');
-                setEditingIndex(null);
-                setShowModal(false);
-            }
+            if (editingIndex === index) resetForm();
         }
     };
 
-    
-    const filteredTipos = tipos.filter((tipo) => {
-        return (
-            tipo.nome.toLowerCase().includes(filterName.toLowerCase()) &&
-            tipo.categoria.toLowerCase().includes(filterCategoria.toLowerCase()) &&
-            tipo.descricao.toLowerCase().includes(filterDescricao.toLowerCase()) &&
-            (filterStatus === '' || tipo.status === filterStatus)
-        );
-    });
-
     const handleAddOrEditContrato = () => {
-        const novoContrato = {
-            nome: nomeContrato,
-            descricao: descricaoContrato
-        };
+        const novoContrato = { nome: nomeContrato, descricao: descricaoContrato };
 
-        if (editingContratoIndex !== null) {
-            const contratosAtualizados = [...statusContrato];
-            contratosAtualizados[editingContratoIndex] = novoContrato;
-            setStatusContrato(contratosAtualizados);
-            localStorage.setItem('statusContrato', JSON.stringify(contratosAtualizados));
-        } else {
-            const contratosAtualizados = [...statusContrato, novoContrato];
-            setStatusContrato(contratosAtualizados);
-            localStorage.setItem('statusContrato', JSON.stringify(contratosAtualizados));
-        }
+        const contratosAtualizados = editingContratoIndex !== null 
+            ? statusContrato.map((contrato, index) => (index === editingContratoIndex ? novoContrato : contrato)) 
+            : [...statusContrato, novoContrato];
 
+        setStatusContrato(contratosAtualizados);
+        localStorage.setItem('statusContrato', JSON.stringify(contratosAtualizados));
         setNomeContrato('');
         setDescricaoContrato('');
         setEditingContratoIndex(null);
-        setShowModal(false);
-    };
-
-    const handleEditContrato = (index) => {
-        const contratoParaEditar = statusContrato[index];
-        setNomeContrato(contratoParaEditar.nome);
-        setDescricaoContrato(contratoParaEditar.descricao);
-        setEditingContratoIndex(index);
-        setShowModal(true);
     };
 
     const handleDeleteContrato = (index) => {
@@ -154,38 +105,29 @@ export function TipoServico() {
             const contratosAtualizados = statusContrato.filter((_, i) => i !== index);
             setStatusContrato(contratosAtualizados);
             localStorage.setItem('statusContrato', JSON.stringify(contratosAtualizados));
-
-            if (editingContratoIndex === index) {
-                setNomeContrato('');
-                setDescricaoContrato('');
-                setEditingContratoIndex(null);
-            }
         }
     };
+
+    const filteredTipos = tipos.filter((tipo) =>
+        tipo.nome.toLowerCase().includes(filterName.toLowerCase()) &&
+        tipo.categoria.toLowerCase().includes(filterCategoria.toLowerCase()) &&
+        tipo.descricao.toLowerCase().includes(filterDescricao.toLowerCase()) &&
+        (filterStatus === '' || tipo.status === filterStatus)
+    );
 
     return (
         <Container className="tipo-servico-container">
             <h2>Tipos de Serviço e Status de Contrato</h2>
-
             {showSuccess && <Alert variant="success">Tipo de Serviço salvo com sucesso!</Alert>}
-
             <Row className="mb-3">
                 <Col md={6}>
-                    <Button
-                        variant="outline-primary"
-                        onClick={() => setShowFilterModal(true)}
-                    >
+                    <Button variant="outline-primary" onClick={() => setShowFilterModal(true)}>
                         <FaFilter /> Filtrar
                     </Button>
                 </Col>
                 <Col md={6} className="d-flex justify-content-end align-items-center">
-                    <Button
-                        variant="primary"
-                        className="d-flex align-items-center"
-                        onClick={() => setShowModal(true)}
-                    >
-                        <FaPlus className="me-2" />
-                        Cadastrar Tipo de Serviço
+                    <Button variant="primary" onClick={() => setShowModal(true)}>
+                        <FaPlus /> Cadastrar Tipo de Serviço
                     </Button>
                 </Col>
             </Row>
@@ -198,125 +140,40 @@ export function TipoServico() {
                     <Form>
                         <Form.Group>
                             <Form.Label>Nome (Tipo de Serviço)</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={nome}
-                                onChange={(e) => setNome(e.target.value)}
-                                placeholder="Digite o nome do tipo de serviço"
-                            />
+                            <Form.Control type="text" value={nome} onChange={(e) => setNome(e.target.value)} />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Categoria</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={categoria}
-                                onChange={(e) => setCategoria(e.target.value)}
-                                placeholder="Digite a categoria"
-                            />
+                            <Form.Control type="text" value={categoria} onChange={(e) => setCategoria(e.target.value)} />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Descrição</Form.Label>
-                            <Form.Control
-                                as="textarea"
-                                rows={3}
-                                value={descricao}
-                                onChange={(e) => setDescricao(e.target.value)}
-                                placeholder="Digite a descrição"
-                            />
+                            <Form.Control as="textarea" rows={3} value={descricao} onChange={(e) => setDescricao(e.target.value)} />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Status</Form.Label>
-                            <Form.Control
-                                as="select"
-                                value={status}
-                                onChange={(e) => setStatus(validarStatus(e.target.value))}
-                            >
+                            <Form.Control as="select" value={status} onChange={(e) => setStatus(validarStatus(e.target.value))}>
                                 <option value="ATIVO">ATIVO</option>
                                 <option value="DESATIVADO">DESATIVADO</option>
                             </Form.Control>
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Status de Contrato</Form.Label>
-                            <Form.Control
-                                as="select"
-                                value={statusContratoSelecionado}
-                                onChange={(e) => setStatusContratoSelecionado(e.target.value)}
-                            >
+                            <Form.Control as="select" value={statusContratoSelecionado} onChange={(e) => setStatusContratoSelecionado(e.target.value)}>
                                 <option value="">Selecione um status de contrato</option>
-                                <option value="">CONTRATO ANUAL</option>
-                                <option value="">CONTRATO MENSAL</option>
+                                <option value="VIGENTE">VIGENTE</option>
+                                <option value="CANCELADO">CANCELADO</option>
                                 {statusContrato.map((contrato, index) => (
-                                    <option key={index} value={contrato.nome}>
-                                        {contrato.nome}
-                                    </option>
+                                    <option key={index} value={contrato.nome}>{contrato.nome}</option>
                                 ))}
                             </Form.Control>
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowModal(false)}>
-                        Fechar
-                    </Button>
+                    <Button variant="secondary" onClick={() => setShowModal(false)}>Fechar</Button>
                     <Button variant="primary" onClick={handleAddOrEditTipo}>
                         {editingIndex !== null ? 'Salvar Alterações' : 'Cadastrar'}
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
-            <Modal show={showFilterModal} onHide={() => setShowFilterModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Filtrar Tipos de Serviço</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group>
-                            <Form.Label>Nome</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={filterName}
-                                onChange={(e) => setFilterName(e.target.value)}
-                                placeholder="Digite o nome para filtrar"
-                            />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Categoria</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={filterCategoria}
-                                onChange={(e) => setFilterCategoria(e.target.value)}
-                                placeholder="Digite a categoria para filtrar"
-                            />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Descrição</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={filterDescricao}
-                                onChange={(e) => setFilterDescricao(e.target.value)}
-                                placeholder="Digite a descrição para filtrar"
-                            />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Status</Form.Label>
-                            <Form.Control
-                                as="select"
-                                value={filterStatus}
-                                onChange={(e) => setFilterStatus(e.target.value)}
-                            >
-                                <option value="">Todos</option>
-                                <option value="ATIVO">ATIVO</option>
-                                <option value="DESATIVADO">DESATIVADO</option>
-                            </Form.Control>
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowFilterModal(false)}>
-                        Fechar
-                    </Button>
-                    <Button variant="primary" onClick={() => setShowFilterModal(false)}>
-                        Aplicar Filtros
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -341,12 +198,8 @@ export function TipoServico() {
                             <td>{tipo.status}</td>
                             <td>{tipo.statusContrato}</td>
                             <td>
-                                <Button variant="warning" onClick={() => handleEditTipo(index)}>
-                                    <FaEdit />
-                                </Button>
-                                <Button variant="danger" onClick={() => handleDeleteTipo(index)}>
-                                    <FaTrash />
-                                </Button>
+                                <Button variant="warning" onClick={() => handleEditTipo(index)}><FaEdit /></Button>
+                                <Button variant="danger" onClick={() => handleDeleteTipo(index)}><FaTrash /></Button>
                             </td>
                         </tr>
                     ))}
