@@ -117,7 +117,7 @@ export function TipoServico() {
 
     return (
         <Container className="tipo-servico-container">
-            <h2>Tipos de Serviço e Status de Contrato</h2>
+            <h2>Tipos de Serviço</h2>
             {showSuccess && <Alert variant="success">Tipo de Serviço salvo com sucesso!</Alert>}
             <Row className="mb-3">
                 <Col md={6}>
@@ -132,6 +132,7 @@ export function TipoServico() {
                 </Col>
             </Row>
 
+            {/* Modal de Cadastro e Edição */}
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>{editingIndex !== null ? 'Editar Tipo de Serviço' : 'Cadastrar Tipo de Serviço'}</Modal.Title>
@@ -178,6 +179,62 @@ export function TipoServico() {
                 </Modal.Footer>
             </Modal>
 
+            {/* Modal de Filtro */}
+            <Modal show={showFilterModal} onHide={() => setShowFilterModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Filtrar Tipos de Serviço</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group>
+                            <Form.Label>Nome</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={filterName}
+                                onChange={(e) => setFilterName(e.target.value)}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Categoria</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={filterCategoria}
+                                onChange={(e) => setFilterCategoria(e.target.value)}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Descrição</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={filterDescricao}
+                                onChange={(e) => setFilterDescricao(e.target.value)}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Status</Form.Label>
+                            <Form.Control
+                                as="select"
+                                value={filterStatus}
+                                onChange={(e) => setFilterStatus(e.target.value)}
+                            >
+                                <option value="">Todos</option>
+                                <option value="ATIVO">ATIVO</option>
+                                <option value="DESATIVADO">DESATIVADO</option>
+                            </Form.Control>
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowFilterModal(false)}>Fechar</Button>
+                    <Button
+                        variant="primary"
+                        onClick={() => setShowFilterModal(false)}
+                    >
+                        Aplicar Filtro
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -198,8 +255,12 @@ export function TipoServico() {
                             <td>{tipo.status}</td>
                             <td>{tipo.statusContrato}</td>
                             <td>
-                                <Button variant="warning" onClick={() => handleEditTipo(index)}><FaEdit /></Button>
-                                <Button variant="danger" onClick={() => handleDeleteTipo(index)}><FaTrash /></Button>
+                                <Button variant="outline-success" onClick={() => handleEditTipo(index)}>
+                                    <FaEdit />
+                                </Button>{' '}
+                                <Button variant="outline-danger" onClick={() => handleDeleteTipo(index)}>
+                                    <FaTrash />
+                                </Button>
                             </td>
                         </tr>
                     ))}
