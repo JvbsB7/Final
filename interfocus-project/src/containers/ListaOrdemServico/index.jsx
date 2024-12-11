@@ -152,10 +152,10 @@ export function ListaOrdensServico() {
                         <>
                             <Form.Group>
                                 <Form.Label>Cliente</Form.Label>
-                                <Form.Control type="text" value={ordemSelecionada.cliente} readOnly /> {/* Exibir o cliente no modal */}
+                                <Form.Control type="text" value={ordemSelecionada.cliente} readOnly />
                             </Form.Group>
                             <Form.Group>
-                                <Form.Label>Serviço</Form.Label>
+                                <Form.Label>Descrição</Form.Label>
                                 <Form.Control type="text" value={ordemSelecionada.servico} readOnly />
                             </Form.Group>
                             <Form.Group>
@@ -167,7 +167,7 @@ export function ListaOrdensServico() {
                                 <Form.Control type="text" value={ordemSelecionada.data} readOnly />
                             </Form.Group>
                             <Form.Group className="mt-3">
-                                <Form.Label>Comentários</Form.Label>
+                                <Form.Label>Ocorrência</Form.Label>
                                 <Form.Control
                                     as="textarea"
                                     rows={3}
